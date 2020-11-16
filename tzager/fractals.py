@@ -1,3 +1,13 @@
+import json
+import requests
 
-def addition(number1, number2):
-    return number1 + number2
+def get_data(password, concept):
+    
+    response = requests.get('https://cloud.bolooba.com:25556/symptoms_data/' + password + '/' + concept)
+    if response.status_code == 200:
+        data = dict(response.json())
+        
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
