@@ -83,7 +83,7 @@ def from_xlsx(file_path, head_column='None'):
 
 def from_pdf(file_path, starting_page='None', ending_page='None', return_type='text'):
     
-    if file_path.endswith('.xlsx'):
+    if file_path.endswith('.pdf'):
         print('Converting pdf to text ...')
         rsrcmgr = PDFResourceManager()
         sio = StringIO()
@@ -130,5 +130,3 @@ def from_txt(file_path, return_type='text'):
         data = {}
     
     return data
-
-from_pdf('/home/user/Downloads/The microbiota continuum along the female reproductive tract and its relation to uterine-relateddiseases.pdf')
