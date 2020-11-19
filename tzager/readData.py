@@ -81,7 +81,7 @@ def from_xlsx(file_path, head_column='None'):
 
     return df_dict
 
-def from_pdf(file_path, starting_page='None', ending_page='None', return_type='text'):
+def from_pdf(file_path, starting_page='None', ending_page='None'):
     
     if file_path.endswith('.pdf'):
         print('Converting pdf to text ...')
@@ -119,7 +119,7 @@ def from_pdf(file_path, starting_page='None', ending_page='None', return_type='t
     return data
 
 
-def from_txt(file_path, return_type='text'):
+def from_txt(file_path):
     
     if file_path.endswith('.txt'):
         with open(file_path, 'r') as file:
