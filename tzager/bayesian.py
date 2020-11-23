@@ -4,15 +4,15 @@ import pickle
 
 
 def load_example_networks(name='bayesian_network_sm1', save_network_image=False):
-    network = pickle.load(open('data/'+name, 'rb'))
+    network = pickle.load(open('../data/'+name, 'rb'))
     if save_network_image:
         G = network['graph']
         nx.draw_networkx(G)
         plt.savefig('Bayesian_Network.png')
     return network
 
-def create_network(variable_connections, probabilities, save_network_image=False):
-    
+
+def create_network(variable_connections, probabilities, save_network_image=False):    
     G = nx.DiGraph()
     edges = []
     for node in variable_connections:
@@ -35,6 +35,7 @@ def create_network(variable_connections, probabilities, save_network_image=False
             return {'graph': G, 'probabilities': probabilities}
         else:
             return ''
+
 
 def validate_probability_table(G, nodes, probabilities_table):
     invalid_nodes = []
