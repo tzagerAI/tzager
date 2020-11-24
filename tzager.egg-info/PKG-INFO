@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: tzager
+Version: 0.0.1.9.2
+Summary: A demo example package
+Home-page: https://github.com/tzagerAI/tzager
+Author: tzager
+Author-email: nikos@intoolab.com,a.ntokos@intoolab.com
+License: UNKNOWN
+Project-URL: Code, https://github.com/tzagerAI/tzager
+Description: # Example Package
+        
+        This is a simple example package fot tzager. You can use
+        [Github-flavored Markdown](https://guides.github.com/features/mastering-markdown/)
+        to write your content.
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown

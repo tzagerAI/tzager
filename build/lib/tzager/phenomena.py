@@ -1,0 +1,17 @@
+import json
+import requests
+
+
+def get_data(password, concept_list, filters='None'):
+    concept_list = '|'.join(concept_list)
+    if filters != 'None':
+        filters = '|'.join(filters)
+    
+    response = requests.get('https://cloud.bolooba.com:25556/phenomena_data/' + password + '/' + concept_list + '/' + filters)
+    if response.status_code == 200:
+        data = dict(response.json())
+        
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
