@@ -23,7 +23,7 @@ def create_network(variable_connections, probabilities, save_network_image=False
     if not nx.is_directed_acyclic_graph(G):
         print("Invalid Network ...\n", "Give a directed acyclic graph (DAG) ...")
         return ''
-    else:x
+    else:
         nodes = G.nodes()
         is_valid = validate_probability_table(G, nodes, probabilities)
 
