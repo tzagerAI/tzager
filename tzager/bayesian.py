@@ -5,7 +5,7 @@ import pkg_resources
 
 
 def load_example_networks(name='bayesian_network_sm1', save_network_image=False):
-    location = pkg_resources.resource_stream(__name__, 'data/' + name)
+    location = pkg_resources.resource_filename('tzager', 'data/' + name)
     network = pickle.load(open(location, 'rb'))
     if save_network_image:
         G = network['graph']
@@ -117,3 +117,4 @@ def inference(query, network, algorithm='enumeration'):
 
 
 
+load_example_networks()
