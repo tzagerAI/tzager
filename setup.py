@@ -14,6 +14,8 @@ setuptools.setup(
     url="https://github.com/tzagerAI/tzager",
     project_urls = {"Code": "https://github.com/tzagerAI/tzager"},
     packages=setuptools.find_packages(),
+    include_package_data=True,
+    package_data={'': ['data/*']},
     install_requires=["requests", "pdfminer", "pandas", "networkx", 'matplotlib'],
     classifiers=[
         "Programming Language :: Python :: 3",

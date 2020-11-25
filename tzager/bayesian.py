@@ -4,7 +4,7 @@ import pickle
 
 
 def load_example_networks(name='bayesian_network_sm1', save_network_image=False):
-    network = pickle.load(open('../data/'+name, 'rb'))
+    network = pickle.load(open('data/'+name, 'rb'))
     if save_network_image:
         G = network['graph']
         nx.draw_networkx(G)
