@@ -102,15 +102,21 @@ def inference(query, network, algorithm='enumeration'):
         print('Hidden Variables:', hidden_variables)
         print()
     
-    hidden_variables_dict = {}
-    for i,h in enumerate(hidden_variables):
-        hidden_variables_dict[i] = h
+        hidden_variables_dict = {}
+        for i,h in enumerate(hidden_variables):
+            hidden_variables_dict[i] = h
 
-    assignment = {**query_variables, **evidence_variables}
+        assignment = {**query_variables, **evidence_variables}
+        
+        hidden_variables_possible_assignments = list(product(possible_values, repeat=len(hidden_variables)))
+        for pair in hidden_variables_possible_assignments:
+            for i, value in enumerate(pair):
+                assignment[hidden_variables_dict[i]] = value
+            total_probability += full_joint_probability(assignment, network)['Pr']
+        return {'Inference Pr': total_probability}
     
-    hidden_variables_possible_assignments = list(product(possible_values, repeat=len(hidden_variables)))
-    for pair in hidden_variables_possible_assignments:
-        for i, value in enumerate(pair):
-            assignment[hidden_variables_dict[i]] = value
-        total_probability += full_joint_probability(assignment, network)['Pr']
-    return {'Inference Pr': total_probability}
+    elif algorithm == 'elimination':
+        pass
+    
+    elif algorithm == 'approximation':
+        pass
