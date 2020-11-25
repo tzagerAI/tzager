@@ -114,7 +114,3 @@ def inference(query, network, algorithm='enumeration'):
             assignment[hidden_variables_dict[i]] = value
         total_probability += full_joint_probability(assignment, network)['Pr']
     return {'Inference Pr': total_probability}
-
-
-
-load_example_networks()
