@@ -16,7 +16,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     package_data={'': ['data/*']},
-    install_requires=["requests", "pdfminer", "pandas", "networkx", 'matplotlib'],
+    install_requires=["requests", "pdfminer", "pandas", "networkx", 'matplotlib', 'pkg_resources'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",

@@ -1,10 +1,12 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import pickle
+import pkg_resources
 
 
 def load_example_networks(name='bayesian_network_sm1', save_network_image=False):
-    network = pickle.load(open('data/'+name, 'rb'))
+    location = pkg_resources.resource_stream(__name__, 'data/' + name)
+    network = pickle.load(open(location, 'rb'))
     if save_network_image:
         G = network['graph']
         nx.draw_networkx(G)
