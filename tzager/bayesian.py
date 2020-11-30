@@ -13,7 +13,6 @@ def load_example_networks(name='bayesian_network_sm1', save_network_image=False)
         plt.savefig('Bayesian_Network.png')
     return network
 
-
 def create_network(variable_connections, probabilities, save_network_image=False):    
     G = nx.DiGraph()
     edges = []
@@ -27,40 +26,12 @@ def create_network(variable_connections, probabilities, save_network_image=False
         return ''
     else:
         nodes = G.nodes()
-        is_valid = validate_probability_table(G, nodes, probabilities)
 
         if save_network_image:
             nx.draw_networkx(G)
             plt.savefig('Bayesian_Network.png')
 
-        if is_valid:
-            return {'graph': G, 'probabilities': probabilities}
-        else:
-            return ''
-
-
-def validate_probability_table(G, nodes, probabilities_table):
-    errors = []
-    for node in probabilities_table:
-        sum_pr = 0
-        if type(probabilities_table[node]) is list:
-            for case in probabilities_table[node]:
-                value = case[1]
-                sum_pr += value
-            if sum_pr != 1:
-                errors.append('Error in probability distribution of variable: ' + node)
-        else:
-            sum_pr = 0
-            for value in probabilities_table[node]:
-                sum_pr += probabilities_table[node][value]
-            if sum_pr != 1:
-                errors.append('Error in probability distribution of variable: ' + node)
-    if not errors:
-        return True
-    else:
-        for er in errors:
-            print(er)
-        return False
+        return {'graph': G, 'probabilities': probabilities}
 
 def full_joint_probability(assignment, network):
     assignment_pr = 1
@@ -85,6 +56,7 @@ def full_joint_probability(assignment, network):
     return {'Pr': assignment_pr}
 
 def inference(query, network, algorithm='enumeration'):
+
     from itertools import product
     possible_values = ["T", "F"]
     G = network['graph']
@@ -120,3 +92,4 @@ def inference(query, network, algorithm='enumeration'):
     
     elif algorithm == 'approximation':
         pass
+

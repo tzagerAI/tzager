@@ -79,3 +79,16 @@ def prob_event(data, variables, q, topn=5):
         print()
     return scores
 
+
+#### PREMIUM ###
+def suggest_beliefs(password, query, topn=10):
+    import requests, json
+    response = requests.post('http://127.0.0.1:5000/suggest_belief/' + password + '/' + str(topn), json=json.dumps(query))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
+    
+suggest_beliefs('$biomedicine$', {'query_variable': 'Lung Neoplasms', 'given_variables': ['Fever', 'Atrophy']})
