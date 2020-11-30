@@ -90,5 +90,4 @@ def suggest_beliefs(password, query, topn=10):
         data = {'error': response.status_code}
         data = dict(data)
     return data
-    
-suggest_beliefs('$biomedicine$', {'query_variable': 'Lung Neoplasms', 'given_variables': ['Fever', 'Atrophy']})
+
