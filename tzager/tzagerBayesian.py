@@ -92,4 +92,12 @@ def suggest_belief(password, query, topn=10):
     return data
 
 
-
+def tzager_prob(password, query):
+    import requests, json
+    response = requests.post('https://cloud.bolooba.com:25556/tzager_prob/' + password, json=json.dumps(query))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
