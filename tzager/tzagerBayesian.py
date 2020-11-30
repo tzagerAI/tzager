@@ -81,13 +81,15 @@ def prob_event(data, variables, q, topn=5):
 
 
 #### PREMIUM ###
-def suggest_beliefs(password, query, topn=10):
+def suggest_belief(password, query, topn=10):
     import requests, json
-    response = requests.post('http://127.0.0.1:5000/suggest_belief/' + password + '/' + str(topn), json=json.dumps(query))
+    response = requests.post('https://cloud.bolooba.com:25556/suggest_belief/' + password + '/' + str(topn), json=json.dumps(query))
     if response.status_code == 200:
         data = dict(response.json())
     else:
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+
 
