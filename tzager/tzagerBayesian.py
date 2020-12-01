@@ -92,7 +92,7 @@ def suggest_belief(password, query, topn=10):
     return data
 
 
-def tzager_prob(password, query):
+def compute_prob(password, query):
     import requests, json
     response = requests.post('https://cloud.bolooba.com:25556/tzager_prob/' + password, json=json.dumps(query))
     if response.status_code == 200:
@@ -101,3 +101,44 @@ def tzager_prob(password, query):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+def targeted_prob(password, query, a_rate=2, report=False):
+    import requests, json
+    response = requests.post('https://cloud.bolooba.com:25556/targeted_prob/' + password + '/' + str(a_rate), json=json.dumps(query))
+    if response.status_code == 200:
+        data = dict(response.json())
+        if report:
+            print('================= REPORT =================')
+            for step in data:
+                if step == 'step1':
+                    print('\n\n----------------------------- Probabilities Data --------------------\n\n')
+                    print('Probability:', data[step]['prob'], '\n')
+                    print('Probability analysis per given variable:')
+                    for g in data[step]['prob per given variable']:
+                        print(g, ':', data[step]['prob per given variable'][g])
+                elif step == 'step2':
+                    print('\n\n--- Probabilities Analysis For Suggested Beliefs (based on given) ---\n\n')
+                    temp_data = []
+                    for b in data[step]:
+                        temp_data.append((b, data[step][b]['prob'], data[step][b]['prob per given variable']))
+                    temp_data = sorted(temp_data, key=lambda x: x[1], reverse=True)
+                    for pair in temp_data:
+                        b = pair[0]
+                        prob = pair[1]
+                        per_given_v = pair[2]
+                        print('Belief:', b)
+                        print('Probability:', prob)
+                        print('Probability analysis per given variable:')
+                        for g in per_given_v:
+                            print(g, ':', per_given_v[g])
+                        print()
+                elif step == 'step3':
+                    print("\n\n-------------- Given variables missing to complete belief ------------\n\n")
+                    for categ in data[step]:
+                        print(categ + ' missing:', [c for c in data[step][categ] if c not in query['given_variables']])
+                        print()
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
+
