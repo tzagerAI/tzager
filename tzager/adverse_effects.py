@@ -2,7 +2,7 @@ import json
 import requests
 
 
-def get_data(password, concept_list, filters='None'):
+def get_data(password, concept_list, filters=[]):
 
     data_dict = {'concept_list': concept_list, 'filters': filters}
     response = requests.get('https://cloud.bolooba.com:25556/adverse_effects/' + password, json=json.dumps(data_dict))
@@ -13,4 +13,3 @@ def get_data(password, concept_list, filters='None'):
         data = {'error': response.status_code}
         data = dict(data)
     return data
-
