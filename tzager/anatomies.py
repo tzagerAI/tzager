@@ -13,3 +13,4 @@ def get_data(password, concept_list, filters=[]):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+

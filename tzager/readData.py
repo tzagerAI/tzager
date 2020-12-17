@@ -7,6 +7,37 @@ from pdfminer.layout import LAParams
 
 from io import StringIO
 
+def samples_xlsx(file_path):
+    df = pd.read_excel(file_path)
+    columns = df.columns
+    entities = df['Entities']
+    samples_dict = {}
+    for c in columns:
+        if 'Sample' in c:
+            samples_dict[c] = {}
+            samples = df[c]
+            for i, s in enumerate(samples):
+                if s > 0:
+                    samples_dict[c][entities[i]] = s
+    return samples_dict
+
+
+def samples_csv(file_path):
+
+    df = pd.read_csv(file_path)
+    columns = df.columns
+    entities = df['Entities']
+    samples_dict = {}
+    for c in columns:
+        if 'Sample' in c:
+            samples_dict[c] = {}
+            samples = df[c]
+            for i, s in enumerate(samples):
+                if s > 0:
+                    samples_dict[c][entities[i]] = s
+
+    return samples_dict
+
 def from_csv(file_path, head_column='None'):
     if file_path.endswith('.csv'):
         df = pd.read_csv(file_path)
@@ -30,6 +61,7 @@ def from_csv(file_path, head_column='None'):
         df_dict = {}
 
     return df_dict
+
 
 def from_tsv(file_path, head_column='None'):
     
@@ -80,6 +112,7 @@ def from_xlsx(file_path, head_column='None'):
         df_dict = {}
 
     return df_dict
+
 
 def from_pdf(file_path, starting_page='None', ending_page='None'):
     
