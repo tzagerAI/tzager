@@ -12,8 +12,3 @@ def get_data(password, new_concept, based_on, data_to_get):
         data = dict(data)
     return data
 
-password = '$biomedicine$'
-new_concept = 'neovagina-intestine'
-based_on = 'Intestines'
-data_to_get = ['diseases', 'organisms']
-data = get_data(password, new_concept, based_on, data_to_get)
