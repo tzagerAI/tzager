@@ -11,4 +11,3 @@ def get_data(password, new_concept, based_on, data_to_get):
         data = {'error': response.status_code}
         data = dict(data)
     return data
-
