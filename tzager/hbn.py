@@ -14,7 +14,7 @@ def suggest_belief(password, query, topn=10):
 
 def compute_prob(password, query):
     import requests, json
-    response = requests.post('Tzager-env.eba-q5bcup2y.eu-west-2.elasticbeanstalk.com/hbn_compute_prob/' + password, json=json.dumps(query))
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/hbn_compute_prob/' + password, json=json.dumps(query))
     if response.status_code == 200:
         data = dict(response.json())
     else:
