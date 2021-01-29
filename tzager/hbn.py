@@ -22,6 +22,17 @@ def compute_prob(password, query):
         data = dict(data)
     return data
 
+
+def branch_conditions(password, query):
+    import requests, json
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/branch_conditions/' + password, json=json.dumps(query))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
+
 def targeted_prob(password, query, a_rate=2, report=False):
     import requests, json
     response = requests.post('https://cloud.bolooba.com:25556/targeted_prob/' + password + '/' + str(a_rate), json=json.dumps(query))
