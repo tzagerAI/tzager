@@ -33,6 +33,7 @@ def branch_conditions(password, query):
         data = dict(data)
     return data
 
+
 def targeted_prob(password, query, a_rate=2, report=False):
     import requests, json
     response = requests.post('https://cloud.bolooba.com:25556/targeted_prob/' + password + '/' + str(a_rate), json=json.dumps(query))
@@ -71,3 +72,5 @@ def targeted_prob(password, query, a_rate=2, report=False):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+
