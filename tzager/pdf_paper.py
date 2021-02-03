@@ -2,7 +2,7 @@ import json
 import requests
 
 def analysis(password, path, title):
-    import requests, json
+
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
     from pdfminer.converter import TextConverter
     from pdfminer.layout import LAParams
@@ -60,6 +60,7 @@ def analysis(password, path, title):
             interval_lines_txt = ' '.join(interval_lines)
             if interval_lines and len(interval_lines_txt) > 100:
                 final_data[lines_section_ids_dict[start]] = ' '.join(interval_lines)
+                
     print('Uploading text ...')
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_analysis/' + password, json=json.dumps(final_data))
     if response.status_code == 200:
@@ -68,3 +69,5 @@ def analysis(password, path, title):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+
