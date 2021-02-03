@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tzager", 
-    version="0.0.3.3.5",
+    version="0.0.3.3.6",
     author="tzager",
     author_email = "nikos@intoolab.com,a.ntokos@intoolab.com",
     description="A demo example package",
@@ -16,7 +16,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     package_data={'': ['data/*']},
-    install_requires=["requests", "pdfminer==20181108", "pandas", "networkx", 'matplotlib', 'tqdm'],
+    install_requires=["requests", "pdfminer==20191125", "pandas", "networkx", 'matplotlib', 'tqdm', 'pdfminer.six==20170720'],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
