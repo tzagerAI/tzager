@@ -70,7 +70,6 @@ def analysis(password, path, title):
         data = dict(data)
     return data
 
-
 def scientific_analysis(password, path, title):
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
     from pdfminer.converter import TextConverter
@@ -143,6 +142,16 @@ def scientific_analysis(password, path, title):
 def focus_on(password, pkey, entity):
     final_data = {'password': password, 'pkey': pkey, 'entity': entity}
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/focus_on', json=json.dumps(final_data))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
+
+def compare_papers(password, key1, key2, edges_1, edges_2, main_scope_1, main_scope_2):
+    final_data = {'password': password, 'key1': key1, 'key2': key2, 'edges_1': edges_1, 'edges_2': edges_2, 'main_scope_1': main_scope_1, 'main_scope_2': main_scope_2}
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/compare_papers', json=json.dumps(final_data))
     if response.status_code == 200:
         data = dict(response.json())
     else:
