@@ -70,7 +70,7 @@ def analysis(password, path, title):
         data = dict(data)
     return data
 
-def scientific_analysis(password, path, title):
+def scientific_analysis(password, path, title, topn):
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
     from pdfminer.converter import TextConverter
     from pdfminer.layout import LAParams
@@ -130,6 +130,7 @@ def scientific_analysis(password, path, title):
     
     final_data['paper_title'] = title
     final_data['full_text'] = new_txt
+    final_data['topn'] = topn
     print('Uploading text ...')
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/scientific_analysis/' + password, json=json.dumps(final_data))
     if response.status_code == 200:
@@ -158,3 +159,5 @@ def compare_papers(password, key1, key2, edges_1, edges_2, main_scope_1, main_sc
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+

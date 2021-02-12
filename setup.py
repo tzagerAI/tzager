@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="tzager", 
-    version="0.0.4.0.8",
+    version="0.0.4.0.9",
     author="tzager",
     author_email = "nikos@intoolab.com,a.ntokos@intoolab.com",
     description="A demo example package",
