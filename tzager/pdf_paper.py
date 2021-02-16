@@ -244,11 +244,12 @@ def hbn_directory(overall_data_to_return):
     overall_edges = []
     overall_edges_ref = {}
     for paper_id in overall_data_to_return:
-        edges = overall_data_to_return[paper_id]
-        for edge in edges:
-            edge = tuple(edge)
-            overall_edges.append(edge)
-            overall_edges_ref[edge] = paper_id
+        if 'edges' in overall_data_to_return[paper_id]:
+            edges = overall_data_to_return[paper_id]['edges']
+            for edge in edges:
+                edge = tuple(edge)
+                overall_edges.append(edge)
+                overall_edges_ref[edge] = paper_id
     overall_edges = list(set(overall_edges))
 
     return overall_edges, overall_edges_ref
