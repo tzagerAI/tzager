@@ -173,7 +173,7 @@ def directory_analysis(password, dir_path):
     all_pdfs_in_path = glob.glob(dir_path+'/*')
     for ii, path in enumerate(all_pdfs_in_path):
         title = path.replace(dir_path, '').replace('.pdf', '')
-        print('Convering pdf to text ...', ii, '/', len(all_pdfs_in_path))
+        print('Convering pdf to text ...', ii+1, '/', len(all_pdfs_in_path))
         rsrcmgr = PDFResourceManager()
         retstr = StringIO()
         codec = 'utf-8'
@@ -226,7 +226,7 @@ def directory_analysis(password, dir_path):
         
         final_data['paper_title'] = title
         final_data['full_text'] = new_txt
-        print('Uploading text ...', ii, '/', len(all_pdfs_in_path))
+        print('Uploading text ...', ii+1, '/', len(all_pdfs_in_path))
         print()
         response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/directory_analysis/' + password, json=json.dumps(final_data))
         if response.status_code == 200:
