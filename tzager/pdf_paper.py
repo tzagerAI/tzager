@@ -234,6 +234,7 @@ def directory_analysis(password, dir_path):
         else:
             r_data = {'error': response.status_code}
             r_data = dict(r_data)
+
         if 'paper_id' in r_data:
             overall_data_to_return[r_data['paper_id']] = r_data
     
@@ -251,4 +252,5 @@ def hbn_directory(overall_data_to_return):
     overall_edges = list(set(overall_edges))
 
     return overall_edges, overall_edges_ref
+
 
