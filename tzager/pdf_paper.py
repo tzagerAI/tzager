@@ -237,6 +237,7 @@ def directory_analysis(password, dir_path):
         if 'paper_id' in r_data:
             overall_data_to_return[r_data['paper_id']] = r_data
     
+    return overall_data_to_return
     
 def hbn_directory(overall_data_to_return):
     overall_edges = []
