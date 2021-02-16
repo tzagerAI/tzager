@@ -236,4 +236,18 @@ def directory_analysis(password, dir_path):
             r_data = dict(r_data)
         if 'paper_id' in r_data:
             overall_data_to_return[r_data['paper_id']] = r_data
-    return overall_data_to_return
+    
+    
+def hbn_directory(overall_data_to_return):
+    overall_edges = []
+    overall_edges_ref = {}
+    for paper_id in overall_data_to_return:
+        edges = overall_data_to_return[paper_id]
+        for edge in edges:
+            edge = tuple(edge)
+            overall_edges.append(edge)
+            overall_edges_ref[edge] = paper_id
+    overall_edges = list(set(overall_edges))
+
+    return overall_edges, overall_edges_ref
+
