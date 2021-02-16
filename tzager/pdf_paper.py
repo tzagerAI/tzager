@@ -234,5 +234,6 @@ def directory_analysis(password, dir_path):
         else:
             r_data = {'error': response.status_code}
             r_data = dict(r_data)
-        overall_data_to_return[title] = r_data
+        if 'paper_id' in r_data:
+            overall_data_to_return[r_data['paper_id']] = r_data
     return overall_data_to_return
