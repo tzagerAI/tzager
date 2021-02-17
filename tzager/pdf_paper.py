@@ -172,7 +172,7 @@ def directory_analysis(password, dir_path):
     overall_data_to_return = []
     all_pdfs_in_path = glob.glob(dir_path+'/*')
     for ii, path in enumerate(all_pdfs_in_path):
-        title = path.replace(dir_path, '').replace('.pdf', '')
+        title = path.replace(dir_path + '/', '').replace('.pdf', '')
         print('Convering pdf to text ...', ii+1, '/', len(all_pdfs_in_path))
         rsrcmgr = PDFResourceManager()
         retstr = StringIO()
