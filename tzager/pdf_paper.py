@@ -169,7 +169,7 @@ def directory_analysis(password, dir_path):
     import glob
 
 
-    overall_data_to_return = {}
+    overall_data_to_return = []
     all_pdfs_in_path = glob.glob(dir_path+'/*')
     for ii, path in enumerate(all_pdfs_in_path):
         title = path.replace(dir_path, '').replace('.pdf', '')
@@ -236,27 +236,10 @@ def directory_analysis(password, dir_path):
             r_data = dict(r_data)
 
         if 'paper_id' in r_data:
-            overall_data_to_return[r_data['paper_id']] = r_data
+            overall_data_to_return.append(r_data['paper_id'])
     
     return overall_data_to_return
     
-def hbn_directory(overall_data_to_return):
-    overall_edges = []
-    overall_edges_ref = {}
-    for paper_id in overall_data_to_return:
-        if 'edges' in overall_data_to_return[paper_id]:
-            edges = overall_data_to_return[paper_id]['edges']
-            for edge in edges:
-                edge = tuple(edge)
-                overall_edges.append(edge)
-                try:
-                    overall_edges_ref[edge].append(paper_id)
-                except KeyError:
-                    overall_edges_ref[edge] = []
-                    overall_edges_ref[edge].append(paper_id)
 
-    overall_edges = list(set(overall_edges))
-
-    return overall_edges, overall_edges_ref
 
 
