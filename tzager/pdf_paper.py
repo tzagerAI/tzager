@@ -1,5 +1,6 @@
 import json
 import requests
+from typing_extensions import final
 
 def analysis(password, path, title):
 
@@ -241,5 +242,14 @@ def directory_analysis(password, dir_path):
     return overall_data_to_return
     
 
+def directory_scopes(password, papers_ids):
+    final_data = {'papers_ids': papers_ids}
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/directory_scopes/' + password, json=json.dumps(final_data))
+    if response.status_code == 200:
+        r_data = dict(response.json())
+    else:
+        r_data = {'error': response.status_code}
+        r_data = dict(r_data)
+    return r_data
 
 
