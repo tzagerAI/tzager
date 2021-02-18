@@ -270,3 +270,13 @@ def intuition_connection(password, papers_ids, focus_on=None):
         r_data = {'error': response.status_code}
         r_data = dict(r_data)
     return r_data
+
+def intuition_mechanisms(password, papers_ids, focus_on=None):
+    final_data = {'paper_ids': papers_ids, 'focus_on': focus_on}
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/intuition_mechanisms/' + password, json=json.dumps(final_data))
+    if response.status_code == 200:
+        r_data = dict(response.json())
+    else:
+        r_data = {'error': response.status_code}
+        r_data = dict(r_data)
+    return r_data
