@@ -280,3 +280,4 @@ def intuition_mechanisms(password, papers_ids, focus_on=None):
         r_data = {'error': response.status_code}
         r_data = dict(r_data)
     return r_data
+
