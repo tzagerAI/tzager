@@ -70,3 +70,13 @@ def intuition_connection(password, discussion_id, question_id=None, focus_on=Non
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+def intuition_mechanisms(password, discussion_id, question_id=None, focus_on=None):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/brain_intuition_mechanisms/' + password, json=json.dumps({'discussion_id': discussion_id, 'question_id': question_id, 'focus_on': focus_on}))
+    # response = requests.post('http://127.0.0.1:5000/question/' + password, json=json.dumps({'query':query, 'discussion_id': discussion_id}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
