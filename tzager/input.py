@@ -28,3 +28,14 @@ def scientific_analysis(password, abstracts, data_for_scientific_analysis, compl
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+
+
+def abstract_augment(password, abstracts, data_for_scientific_analysis, complemetary_data, scopes):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/abstract_augment/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'abstracts': abstracts, 'complemetary_data': complemetary_data, 'scopes': scopes}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
