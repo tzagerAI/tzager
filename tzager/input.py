@@ -47,3 +47,13 @@ def abstract_augment_scopes(password, abstracts, data_for_scientific_analysis, c
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+
+def question_hbn(password, question):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/question_hbn/' + password, json=json.dumps({'question_text': question}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
