@@ -91,3 +91,20 @@ def scientific_analysis(password, papers, data_for_scientific_analysis, compleme
         data = dict(data)
     return data
 
+def paper_augment_nodes(password, papers, data_for_scientific_analysis, complemetary_data, scopes):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_nodes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
+
+def paper_augment_scopes(password, papers, data_for_scientific_analysis, complemetary_data, scopes):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_scopes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
