@@ -126,3 +126,23 @@ def question_papers(password, question, papers):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+def intuition_connection(password, papers, focus_on=None):
+    final_data = {'papers': papers, 'focus_on': focus_on}
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/intuition_connection_papers/' + password, json=json.dumps(final_data))
+    if response.status_code == 200:
+        r_data = dict(response.json())
+    else:
+        r_data = {'error': response.status_code}
+        r_data = dict(r_data)
+    return r_data
+
+def intuition_mechanisms(password, papers, focus_on=None):
+    final_data = {'papers': papers, 'focus_on': focus_on}
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/intuition_mechanisms_papers/' + password, json=json.dumps(final_data))
+    if response.status_code == 200:
+        r_data = dict(response.json())
+    else:
+        r_data = {'error': response.status_code}
+        r_data = dict(r_data)
+    return r_data
