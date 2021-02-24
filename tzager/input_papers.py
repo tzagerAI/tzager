@@ -108,3 +108,21 @@ def paper_augment_scopes(password, papers, data_for_scientific_analysis, complem
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+def question_hbn(password, question):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/question_hbn/' + password, json=json.dumps({'question_text': question}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
+
+def question_papers(password, question, papers):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/question_papers/' + password, json=json.dumps({'question_text': question, 'papers': papers}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
