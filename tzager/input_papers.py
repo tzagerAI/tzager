@@ -64,7 +64,8 @@ def paper_scopes(password, dir_path):
     
         final_data['paper_title'] = title
         final_data['full_text'] = new_txt
-        overall_data_to_return.append(final_data)   
+        overall_data_to_return.append(final_data)
+    print('Uploading text ...')
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/papers_scopes/' + password, json=json.dumps({'papers': overall_data_to_return}))
     if response.status_code == 200:
         data = dict(response.json())
@@ -74,7 +75,7 @@ def paper_scopes(password, dir_path):
     return data
 
 def complemetary_papers(password, data_for_complemetary_papers):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/complemetary_papers/' + password, json=json.dumps({'complemetary_papers': complemetary_papers}))
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/complemetary_papers/' + password, json=json.dumps({'data_for_complemetary_papers': data_for_complemetary_papers}))
     if response.status_code == 200:
         data = dict(response.json())
     else:
