@@ -1,71 +1,102 @@
 import json
 import requests
+import signal
 
-def paper_scopes(password, dir_path):
+class TimeoutException(Exception):   # Custom exception class
+    pass
+
+def timeout_handler(signum, frame):   # Custom signal handler
+    raise TimeoutException
+
+signal.signal(signal.SIGALRM, timeout_handler)
+
+
+def pdf_text(path, title):
     from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
     from pdfminer.converter import TextConverter
     from pdfminer.layout import LAParams
     from pdfminer.pdfpage import PDFPage
     from io import StringIO
-    import glob
 
+    rsrcmgr = PDFResourceManager()
+    retstr = StringIO()
+    codec = 'utf-8'
+    laparams = LAParams()
+    device = TextConverter(rsrcmgr, retstr, laparams=laparams)
+    fp = open(path, 'rb')
+    interpreter = PDFPageInterpreter(rsrcmgr, device)
+    password_pdf = ""
+    maxpages = 0
+    caching = True
+    pagenos=set()
+
+    for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password_pdf, caching=caching, check_extractable=True):
+        interpreter.process_page(page)
+
+    text = retstr.getvalue()
+    fp.close()
+    device.close()
+    retstr.close()
+    text = text.replace('-\n', '').replace('’', "'").replace('inﬂ', 'infl')
+    lines = text.split('\n')
+    lines_section_ids_dict = {}
+    lines_section_ids = []
+    for i, line in enumerate(lines[1:-2]):
+        if len(lines[i-1]) == 0 and len(lines[i+1]) == 0 and len(lines[i]) > 3 and not str(lines[i]).isdigit():
+            lines_section_ids_dict[i] = lines[i]
+            lines_section_ids.append(i)
+
+    data = []
+    for id in lines_section_ids_dict:
+        data.append((lines_section_ids_dict[id], id))
+    data = dict(data)
+
+    final_data = {}
+    new_txt = ''
+    try:
+        ref_id = data['References']
+    except KeyError:
+        ref_id = len(lines) - 1
+    for i, id in enumerate(lines_section_ids):
+        if i < len(lines_section_ids) - 1 and id < ref_id:
+            start = lines_section_ids[i]
+            end = lines_section_ids[i+1]
+            interval_lines = lines[start+1:end]
+            interval_lines_txt = ' '.join(interval_lines)
+            if 'Abbreviations' not in  lines_section_ids_dict[start] and '18 of 36' not in  lines_section_ids_dict[start]:
+                new_txt += interval_lines_txt
+
+    final_data['paper_title'] = title
+    final_data['full_text'] = new_txt
+    return final_data
+
+def paper_scopes(password, dir_path):
+    import glob
+    
     overall_data_to_return = []
+    unconverted_files = []
     all_pdfs_in_path = glob.glob(dir_path+'/*')
     for ii, path in enumerate(all_pdfs_in_path):
         title = path.replace(dir_path + '/', '').replace('.pdf', '')
         print('Convering pdf to text ...', ii+1, '/', len(all_pdfs_in_path))
-        rsrcmgr = PDFResourceManager()
-        retstr = StringIO()
-        codec = 'utf-8'
-        laparams = LAParams()
-        device = TextConverter(rsrcmgr, retstr, laparams=laparams)
-        fp = open(path, 'rb')
-        interpreter = PDFPageInterpreter(rsrcmgr, device)
-        password_pdf = ""
-        maxpages = 0
-        caching = True
-        pagenos=set()
-
-        for page in PDFPage.get_pages(fp, pagenos, maxpages=maxpages, password=password_pdf, caching=caching, check_extractable=True):
-            interpreter.process_page(page)
-
-        text = retstr.getvalue()
-        fp.close()
-        device.close()
-        retstr.close()
-        text = text.replace('-\n', '').replace('’', "'").replace('inﬂ', 'infl')
-        lines = text.split('\n')
-        lines_section_ids_dict = {}
-        lines_section_ids = []
-        for i, line in enumerate(lines[1:-2]):
-            if len(lines[i-1]) == 0 and len(lines[i+1]) == 0 and len(lines[i]) > 3 and not str(lines[i]).isdigit():
-                lines_section_ids_dict[i] = lines[i]
-                lines_section_ids.append(i)
-
-        data = []
-        for id in lines_section_ids_dict:
-            data.append((lines_section_ids_dict[id], id))
-        data = dict(data)
-
-        final_data = {}
-        new_txt = ''
+        signal.alarm(1000)
         try:
-            ref_id = data['References']
-        except KeyError:
-            ref_id = len(lines) - 1
-        for i, id in enumerate(lines_section_ids):
-            if i < len(lines_section_ids) - 1 and id < ref_id:
-                start = lines_section_ids[i]
-                end = lines_section_ids[i+1]
-                interval_lines = lines[start+1:end]
-                interval_lines_txt = ' '.join(interval_lines)
-                if 'Abbreviations' not in  lines_section_ids_dict[start] and '18 of 36' not in  lines_section_ids_dict[start]:
-                    new_txt += interval_lines_txt
-    
-        final_data['paper_title'] = title
-        final_data['full_text'] = new_txt
-        overall_data_to_return.append(final_data)
+            final_data = pdf_text(path, title) # Whatever your function that might hang
+        except TimeoutException:
+            final_data = None
+        
+        signal.alarm(0)
+        if final_data:
+            overall_data_to_return.append(final_data)
+        else:
+            unconverted_files.append(path)
+
     print('Uploading text ...')
+    if unconverted_files:
+        print("Files that fail to convert:", unconverted_files)
+    else:
+        print("All files converted succesfully")
+
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/papers_scopes/' + password, json=json.dumps({'papers': overall_data_to_return}))
     if response.status_code == 200:
         data = dict(response.json())

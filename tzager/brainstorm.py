@@ -61,3 +61,11 @@ def get_papers(password, discussion_id, question_id):
         data = dict(data)
     return data
 
+def development_question(password, query):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/development_question/' + password, json=json.dumps({'question':query}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
