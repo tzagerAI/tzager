@@ -54,3 +54,12 @@ def phenomena(password, concepts_list, pmids=[], filters=[]):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+def genes(password, concepts_list, pmids=[], filters=[]):
+    response = requests.post('https://intoolab.ai/get_genes/' + password, json=json.dumps({'concepts_list':concepts_list, 'pmids': pmids, 'filters': filters}))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
