@@ -1,7 +1,8 @@
 from collections import Counter
 
-def suggest_beliefs(password, query):
+def suggest_beliefs(password, query, pmids=None):
     import requests, json
+    query['pmids'] = pmids
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/suggest_beliefs/' + password, json=json.dumps(query))
     if response.status_code == 200:
         data = dict(response.json())
@@ -12,8 +13,9 @@ def suggest_beliefs(password, query):
         data = dict(data)
     return data
 
-def compute_prob(password, query):
+def compute_prob(password, query, pmids=None):
     import requests, json
+    query['pmids'] = pmids
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/hbn_compute_prob/' + password, json=json.dumps(query))
     if response.status_code == 200:
         data = dict(response.json())
@@ -23,8 +25,9 @@ def compute_prob(password, query):
     return data
 
 
-def branch_conditions(password, query):
+def branch_conditions(password, query, pmids=None):
     import requests, json
+    query['pmids'] = pmids
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/branch_conditions/' + password, json=json.dumps(query))
     if response.status_code == 200:
         data = dict(response.json())

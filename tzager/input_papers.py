@@ -123,8 +123,8 @@ def scientific_analysis(password, papers, data_for_scientific_analysis, compleme
         data = dict(data)
     return data
 
-def paper_augment_nodes(password, papers, data_for_scientific_analysis, complemetary_data, scopes):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_nodes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes}))
+def paper_augment_nodes(password, papers, data_for_scientific_analysis, complemetary_data, scopes, pmids=None):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_nodes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes, 'pmids': pmids}))
     if response.status_code == 200:
         data = dict(response.json())
     else:
@@ -132,8 +132,8 @@ def paper_augment_nodes(password, papers, data_for_scientific_analysis, compleme
         data = dict(data)
     return data
 
-def paper_augment_scopes(password, papers, data_for_scientific_analysis, complemetary_data, scopes):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_scopes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes}))
+def paper_augment_scopes(password, papers, data_for_scientific_analysis, complemetary_data, scopes, pmids=None):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_scopes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes, 'pmids': pmids}))
     if response.status_code == 200:
         data = dict(response.json())
     else:
@@ -141,8 +141,8 @@ def paper_augment_scopes(password, papers, data_for_scientific_analysis, complem
         data = dict(data)
     return data
 
-def question_hbn(password, question):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/question_hbn/' + password, json=json.dumps({'question_text': question}))
+def question_hbn(password, question, pmids=None):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/question_hbn/' + password, json=json.dumps({'question_text': question, 'pmids': pmids}))
     if response.status_code == 200:
         data = dict(response.json())
     else:
