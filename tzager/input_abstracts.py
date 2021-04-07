@@ -10,7 +10,6 @@ def abstract_scopes(password, abstracts):
         data = dict(data)
     return data
 
-
 def complemetary_abstracts(password, data_for_complemetary_abstracts):
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/complemetary_abstracts/' + password, json=json.dumps({'data_for_complemetary_abstracts': data_for_complemetary_abstracts}))
     if response.status_code == 200:
@@ -28,7 +27,6 @@ def scientific_analysis(password, abstracts, data_for_scientific_analysis, compl
         data = {'error': response.status_code}
         data = dict(data)
     return data
-
 
 def abstract_augment_nodes(password, abstracts, data_for_scientific_analysis, complemetary_data, scopes, pmids=None):
     response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/abstract_augment_nodes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'abstracts': abstracts, 'complemetary_data': complemetary_data, 'scopes': scopes, 'pmids': pmids}))

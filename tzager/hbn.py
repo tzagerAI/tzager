@@ -24,7 +24,6 @@ def compute_prob(password, query, pmids=None):
         data = dict(data)
     return data
 
-
 def branch_conditions(password, query, pmids=None):
     import requests, json
     query['pmids'] = pmids
@@ -75,5 +74,8 @@ def targeted_prob(password, query, a_rate=2, report=False):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+
+
 
 
