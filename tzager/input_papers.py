@@ -73,6 +73,7 @@ def pdf_text(path, title):
         final_data['full_text'] = new_txt
         return final_data
     except TimeoutException:
+        final_data = {}
         final_data['paper_title'] = title
         final_data['full_text'] = ''
         return final_data
