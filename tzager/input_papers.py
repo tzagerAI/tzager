@@ -17,7 +17,7 @@ def pdf_text(path, title):
     from pdfminer.layout import LAParams
     from pdfminer.pdfpage import PDFPage
     from io import StringIO
-
+    signal.alarm(60)
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
 
