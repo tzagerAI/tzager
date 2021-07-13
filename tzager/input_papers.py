@@ -37,7 +37,7 @@ def pdf_text(path, title):
     fp.close()
     device.close()
     retstr.close()
-    text = text.replace('\n', '').replace('’', "'").replace('inﬂ', 'infl')
+    text = text.replace('-\n', '').replace('’', "'").replace('inﬂ', 'infl')
     lines = text.split('\n')
     lines_section_ids_dict = {}
     lines_section_ids = []
@@ -45,7 +45,7 @@ def pdf_text(path, title):
         if len(lines[i-1]) == 0 and len(lines[i+1]) == 0 and len(lines[i]) > 3 and not str(lines[i]).isdigit():
             lines_section_ids_dict[i] = lines[i]
             lines_section_ids.append(i)
-
+    
     data = []
     for id in lines_section_ids_dict:
         data.append((lines_section_ids_dict[id], id))
@@ -69,4 +69,5 @@ def pdf_text(path, title):
     final_data['paper_title'] = title
     final_data['full_text'] = new_txt
     return final_data
+
 
