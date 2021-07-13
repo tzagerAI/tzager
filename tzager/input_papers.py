@@ -20,7 +20,7 @@ def pdf_text(path, title):
 
     rsrcmgr = PDFResourceManager()
     retstr = StringIO()
-    codec = 'utf-8'
+
     laparams = LAParams()
     device = TextConverter(rsrcmgr, retstr, laparams=laparams)
     fp = open(path, 'rb')
@@ -37,7 +37,7 @@ def pdf_text(path, title):
     fp.close()
     device.close()
     retstr.close()
-    text = text.replace('-\n', '').replace('’', "'").replace('inﬂ', 'infl')
+    text = text.replace('\n', '').replace('’', "'").replace('inﬂ', 'infl')
     lines = text.split('\n')
     lines_section_ids_dict = {}
     lines_section_ids = []
@@ -70,111 +70,3 @@ def pdf_text(path, title):
     final_data['full_text'] = new_txt
     return final_data
 
-def paper_scopes(password, dir_path):
-    import glob
-    
-    overall_data_to_return = []
-    unconverted_files = []
-    all_pdfs_in_path = glob.glob(dir_path+'/*')
-    for ii, path in enumerate(all_pdfs_in_path):
-        title = path.replace(dir_path + '/', '').replace('.pdf', '')
-        print('Convering pdf to text ...', ii+1, '/', len(all_pdfs_in_path))
-        signal.alarm(1000)
-        try:
-            final_data = pdf_text(path, title) # Whatever your function that might hang
-        except TimeoutException:
-            final_data = None
-        
-        signal.alarm(0)
-        if final_data:
-            overall_data_to_return.append(final_data)
-        else:
-            unconverted_files.append(path)
-
-    print('Uploading text ...')
-    if unconverted_files:
-        print("Files that fail to convert:", unconverted_files)
-    else:
-        print("All files converted succesfully")
-
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/papers_scopes/' + password, json=json.dumps({'papers': overall_data_to_return}))
-    if response.status_code == 200:
-        data = dict(response.json())
-    else:
-        data = {'error': response.status_code}
-        data = dict(data)
-    return data
-
-def complemetary_papers(password, data_for_complemetary_papers):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/complemetary_papers/' + password, json=json.dumps({'data_for_complemetary_papers': data_for_complemetary_papers}))
-    if response.status_code == 200:
-        data = dict(response.json())
-    else:
-        data = {'error': response.status_code}
-        data = dict(data)
-    return data
-
-def scientific_analysis(password, papers, data_for_scientific_analysis, complemetary_data):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/scientific_analysis_papers/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data}))
-    if response.status_code == 200:
-        data = dict(response.json())
-    else:
-        data = {'error': response.status_code}
-        data = dict(data)
-    return data
-
-def paper_augment_nodes(password, papers, data_for_scientific_analysis, complemetary_data, scopes, pmids=None):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_nodes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes, 'pmids': pmids}))
-    if response.status_code == 200:
-        data = dict(response.json())
-    else:
-        data = {'error': response.status_code}
-        data = dict(data)
-    return data
-
-def paper_augment_scopes(password, papers, data_for_scientific_analysis, complemetary_data, scopes, pmids=None):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/paper_augment_scopes/' + password, json=json.dumps({'data_for_scientific_analysis': data_for_scientific_analysis, 'papers': papers, 'complemetary_data': complemetary_data, 'scopes': scopes, 'pmids': pmids}))
-    if response.status_code == 200:
-        data = dict(response.json())
-    else:
-        data = {'error': response.status_code}
-        data = dict(data)
-    return data
-
-def question_hbn(password, question, pmids=None):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/question_hbn/' + password, json=json.dumps({'question_text': question, 'pmids': pmids}))
-    if response.status_code == 200:
-        data = dict(response.json())
-    else:
-        data = {'error': response.status_code}
-        data = dict(data)
-    return data
-
-def question_papers(password, question, papers):
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/question_papers/' + password, json=json.dumps({'question_text': question, 'papers': papers}))
-    if response.status_code == 200:
-        data = dict(response.json())
-    else:
-        data = {'error': response.status_code}
-        data = dict(data)
-    return data
-
-def intuition_connection(password, papers, focus_on=None):
-    final_data = {'papers': papers, 'focus_on': focus_on}
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/intuition_connection_papers/' + password, json=json.dumps(final_data))
-    if response.status_code == 200:
-        r_data = dict(response.json())
-    else:
-        r_data = {'error': response.status_code}
-        r_data = dict(r_data)
-    return r_data
-
-def intuition_mechanisms(password, papers, focus_on=None):
-    final_data = {'papers': papers, 'focus_on': focus_on}
-    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/intuition_mechanisms_papers/' + password, json=json.dumps(final_data))
-    if response.status_code == 200:
-        r_data = dict(response.json())
-    else:
-        r_data = {'error': response.status_code}
-        r_data = dict(r_data)
-    return r_data
