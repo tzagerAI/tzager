@@ -78,4 +78,12 @@ def pdf_text(path, title):
         final_data['full_text'] = ''
         return final_data
 
-
+    
+def paper_analysis(pswd, paper_data):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/lite_upload_library/' + pswd, json=json.dumps(paper_data))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
