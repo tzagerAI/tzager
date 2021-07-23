@@ -81,3 +81,13 @@ def paper_analysis(pswd, paper_data):
         data = {'error': response.status_code}
         data = dict(data)
     return data
+
+
+def knowledge_comparison(pswd, paper_data):
+    response = requests.post('http://tzagerlib1-env.eba-wjp8tqpj.eu-west-2.elasticbeanstalk.com/upload_comparison/' + pswd, json=json.dumps(paper_data))
+    if response.status_code == 200:
+        data = dict(response.json())
+    else:
+        data = {'error': response.status_code}
+        data = dict(data)
+    return data
